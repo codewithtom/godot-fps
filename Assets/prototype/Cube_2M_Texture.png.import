@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/Cube_2M_Texture.png-2f84b8fdfe2045b40527695eee2dd13f.image"
+
+[deps]
+
+source_file="res://Assets/prototype/Cube_2M_Texture.png"
+dest_files=[ "res://.import/Cube_2M_Texture.png-2f84b8fdfe2045b40527695eee2dd13f.image" ]
+
+[params]
+

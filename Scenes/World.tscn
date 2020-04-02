@@ -1,113 +1,174 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Player/Player.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Interactable/InteractableLightSwitch.gd" type="Script" id=2]
+[ext_resource path="res://Assets/prototype/crosshair.png" type="Texture" id=2]
 [ext_resource path="res://default_env.tres" type="Environment" id=3]
 
-[sub_resource type="CubeMesh" id=1]
+[sub_resource type="SpatialMaterial" id=1]
+albedo_color = Color( 0.403922, 0.443137, 0.572549, 1 )
 
-[sub_resource type="ConvexPolygonShape" id=2]
-points = PoolVector3Array( -1, 1, 1, 1, 1, -1, 1, 1, 1, -1, 1, -1, -1, -1, 1, 1, -1, -1, 1, -1, 1, -1, -1, -1, 1, 1, 1, -1, 1, -1, 1, 1, -1, -1, 1, 1, 1, -1, 1, -1, -1, -1, 1, -1, -1, -1, -1, 1, 1, 1, 1, -1, -1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, -1, -1, -1, -1, 1, -1, 1, -1, -1 )
-
-[sub_resource type="SpatialMaterial" id=5]
+[sub_resource type="SpatialMaterial" id=2]
 albedo_color = Color( 1, 0, 0, 1 )
 
-[sub_resource type="SphereMesh" id=3]
-
-[sub_resource type="SphereShape" id=4]
+[sub_resource type="SpatialMaterial" id=3]
+albedo_color = Color( 0.247059, 0.768627, 0.317647, 1 )
 
 [node name="World" type="Spatial"]
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 24 )
 
-[node name="Ground" type="MeshInstance" parent="."]
-editor/display_folded = true
-transform = Transform( 15.0738, 0, 0, 0, 1, 0, 0, 0, 17.739, 0, -6.04547, 0 )
-mesh = SubResource( 1 )
-material/0 = null
+[node name="Environment" type="Spatial" parent="."]
 
-[node name="StaticBody" type="StaticBody" parent="Ground"]
+[node name="Room" type="CSGBox" parent="Environment"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 0 )
+use_collision = true
+invert_faces = true
+width = 84.0
+height = 16.0
+depth = 78.0
 
-[node name="CollisionShape" type="CollisionShape" parent="Ground/StaticBody"]
-shape = SubResource( 2 )
+[node name="Light Bulb" type="OmniLight" parent="Environment"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0 )
+light_energy = 0.52
+omni_range = 42.0
 
-[node name="Ground2" type="MeshInstance" parent="."]
-editor/display_folded = true
-transform = Transform( -6.58897e-007, -1, 0, 15.0738, -4.37114e-008, 0, 0, 0, 17.739, -15.6032, -2.89168, -1.06363 )
-mesh = SubResource( 1 )
-material/0 = null
+[node name="Podium" type="Spatial" parent="Environment"]
 
-[node name="StaticBody" type="StaticBody" parent="Ground2"]
+[node name="CSGCylinder" type="CSGCylinder" parent="Environment/Podium"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0 )
+material_override = SubResource( 1 )
+use_collision = true
+radius = 12.0
+height = 0.8
 
-[node name="CollisionShape" type="CollisionShape" parent="Ground2/StaticBody"]
-shape = SubResource( 2 )
+[node name="CSGCylinder2" type="CSGCylinder" parent="Environment/Podium"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, 0 )
+material_override = SubResource( 1 )
+use_collision = true
+radius = 10.0
+height = 0.8
 
-[node name="LightSwitch" type="MeshInstance" parent="."]
-transform = Transform( -4.37114e-008, -1, 0, 1, -4.37114e-008, 0, 0, 0, 1, -14.3077, -1.5865, -1.06363 )
-mesh = SubResource( 1 )
-material/0 = SubResource( 5 )
+[node name="CSGCylinder3" type="CSGCylinder" parent="Environment/Podium"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0 )
+material_override = SubResource( 1 )
+use_collision = true
+radius = 7.0
+height = 0.8
 
-[node name="StaticBody" type="StaticBody" parent="LightSwitch"]
-collision_layer = 2
-script = ExtResource( 2 )
-light = NodePath("../../SpotLight")
-on_by_default = false
+[node name="CSGCylinder4" type="CSGCylinder" parent="Environment/Podium"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 11 )
+material_override = SubResource( 2 )
+use_collision = true
+radius = 0.2
+height = 8.0
 
-[node name="CollisionShape" type="CollisionShape" parent="LightSwitch/StaticBody"]
-shape = SubResource( 2 )
+[node name="CSGCylinder5" type="CSGCylinder" parent="Environment/Podium"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 8 )
+material_override = SubResource( 2 )
+use_collision = true
+radius = 0.2
+height = 8.0
 
-[node name="Enemy" type="StaticBody" parent="." groups=[
-"Enemies",
-]]
-editor/display_folded = true
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -7.42377 )
+[node name="CSGCylinder6" type="CSGCylinder" parent="Environment/Podium"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 0, 0 )
+material_override = SubResource( 2 )
+use_collision = true
+radius = 0.2
+height = 8.0
 
-[node name="MeshInstance" type="MeshInstance" parent="Enemy"]
-mesh = SubResource( 3 )
-material/0 = null
+[node name="CSGCylinder7" type="CSGCylinder" parent="Environment/Podium"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, -8 )
+material_override = SubResource( 2 )
+use_collision = true
+radius = 0.2
+height = 8.0
 
-[node name="CollisionShape" type="CollisionShape" parent="Enemy"]
-shape = SubResource( 4 )
+[node name="CSGCylinder8" type="CSGCylinder" parent="Environment/Podium"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -11 )
+material_override = SubResource( 2 )
+use_collision = true
+radius = 0.2
+height = 8.0
 
-[node name="Enemy2" type="StaticBody" parent="." groups=[
-"Enemies",
-]]
-editor/display_folded = true
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10.186 )
+[node name="CSGCylinder9" type="CSGCylinder" parent="Environment/Podium"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, -8 )
+material_override = SubResource( 2 )
+use_collision = true
+radius = 0.2
+height = 8.0
 
-[node name="MeshInstance" type="MeshInstance" parent="Enemy2"]
-mesh = SubResource( 3 )
-material/0 = null
+[node name="CSGCylinder10" type="CSGCylinder" parent="Environment/Podium"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 0, 0 )
+material_override = SubResource( 2 )
+use_collision = true
+radius = 0.2
+height = 8.0
 
-[node name="CollisionShape" type="CollisionShape" parent="Enemy2"]
-shape = SubResource( 4 )
+[node name="CSGCylinder11" type="CSGCylinder" parent="Environment/Podium"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, 8 )
+material_override = SubResource( 2 )
+use_collision = true
+radius = 0.2
+height = 8.0
 
-[node name="Enemy3" type="StaticBody" parent="." groups=[
-"Enemies",
-]]
-editor/display_folded = true
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -10.0649, 0, 4.58648 )
+[node name="CSGBox" type="CSGBox" parent="Environment"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 25, -1, 16 )
+material_override = SubResource( 3 )
+use_collision = true
+width = 16.0
+depth = 1.0
 
-[node name="MeshInstance" type="MeshInstance" parent="Enemy3"]
-mesh = SubResource( 3 )
-material/0 = null
+[node name="CSGBox2" type="CSGBox" parent="Environment"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -30, -1, 16 )
+material_override = SubResource( 3 )
+use_collision = true
+width = 16.0
+depth = 1.0
 
-[node name="CollisionShape" type="CollisionShape" parent="Enemy3"]
-shape = SubResource( 4 )
+[node name="CSGBox3" type="CSGBox" parent="Environment"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -30, -1, -27 )
+material_override = SubResource( 3 )
+use_collision = true
+width = 16.0
+depth = 1.0
+
+[node name="CSGBox4" type="CSGBox" parent="Environment"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 27, -1, -27 )
+material_override = SubResource( 3 )
+use_collision = true
+width = 16.0
+depth = 1.0
+
+[node name="CSGBox5" type="CSGBox" parent="Environment"]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 33.5, -1, 18.1 )
+material_override = SubResource( 3 )
+use_collision = true
+width = 5.2
+depth = 1.0
 
 [node name="UI" type="Control" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Label" type="Label" parent="UI"]
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -208.0
-margin_top = -75.0
+margin_left = -79.0
+margin_top = -36.0
+margin_right = -8.0
+margin_bottom = -5.0
 text = "Ammo
 2/2"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="InteractionLabel" type="Label" parent="UI"]
 anchor_top = 1.0
@@ -117,10 +178,26 @@ margin_top = -31.0
 text = "Press E to interact"
 align = 1
 valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="SpotLight" type="SpotLight" parent="."]
-transform = Transform( 0.112146, 0.0830361, 0.990216, -0.993646, -0.000157445, 0.112548, 0.00950142, -0.996547, 0.0824909, -12.1686, -1.61931, -1.22583 )
-spot_angle = 67.5
+[node name="CenterContainer" type="CenterContainer" parent="UI"]
+margin_right = 1024.0
+margin_bottom = 600.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="UI/CenterContainer"]
+margin_left = 504.0
+margin_top = 292.0
+margin_right = 520.0
+margin_bottom = 308.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource( 2 )
+stretch_mode = 4
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = ExtResource( 3 )
