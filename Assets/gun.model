@@ -1,0 +1,20 @@
+# Made using Asset Forge (2.0 preview-1b)
+
+:materials
+
+[name:_defaultMat;color:RGBA(0.939, 0.953, 1.000, 1.000);shader:Standard;valueA:0.35;valueB:0;]
+[name:dark;color:RGBA(0.224, 0.235, 0.275, 1.000);shader:Standard;valueA:0.35;valueB:0;]
+[name:metalDark;color:RGBA(0.400, 0.388, 0.647, 1.000);shader:Standard;valueA:0.35;valueB:0.5;]
+
+:models
+
+[name:;collection:Blasters;type:clip_default;position:(0.0000, 0.0000, 1.0000);rotation:(0.0000, 0.0000, 0.0000);scale:(1.0000, 1.0000, 1.0000);group:;locked:False;hidden:False;materials:dark;]
+[name:;collection:Blasters;type:blaster_barrel;position:(0.0000, 0.0000, 2.0000);rotation:(0.0000, 0.0000, 0.0000);scale:(1.0000, 1.0000, 1.0000);group:;locked:False;hidden:False;materials:metalDark+_defaultMat+dark;]
+[name:;collection:Blasters;type:blaster_handleGuard;position:(0.0000, 0.0000, 0.1000);rotation:(0.0000, 0.0000, 0.0000);scale:(1.0000, 1.0000, 1.0000);group:;locked:False;hidden:False;materials:dark+_defaultMat+metalDark;]
+[name:;collection:Blasters;type:blaster_back;position:(0.0000, 0.0000, -0.8000);rotation:(0.0000, 0.0000, 0.0000);scale:(1.0000, 1.0000, 1.0000);group:;locked:False;hidden:False;materials:_defaultMat+metalDark;]
+[name:;collection:Blasters;type:attachment_laser;position:(0.0000, 0.0000, 1.7000);rotation:(0.0000, 0.0000, 0.0000);scale:(1.0000, 1.0000, 1.0000);group:;locked:False;hidden:False;materials:dark+_defaultMat+metalDark;]
+[name:;collection:Blasters;type:blaster_centerDetail;position:(0.0000, 0.0000, 1.0000);rotation:(0.0000, 0.0000, 0.0000);scale:(1.0000, 1.0000, 1.0000);group:;locked:False;hidden:False;materials:metalDark+_defaultMat+dark;]
+[name:;collection:Blasters;type:detailCounter;position:(-0.1750, 0.7720, 0.7000);rotation:(0.0000, 0.0000, 90.0000);scale:(0.4000, 0.6600, 1.0000);group:;locked:False;hidden:False;materials:metalDark+dark+_defaultMat;]
+[name:;collection:Blasters;type:detailRail_front;position:(0.0037, 1.0000, 2.0000);rotation:(0.0000, 0.0000, 0.0000);scale:(0.5184, 1.0000, 0.3000);group:;locked:False;hidden:False;materials:dark;]
+[name:;collection:Blasters;type:detailRail;position:(0.0000, 1.0000, 0.4945);rotation:(0.0000, 0.0000, 0.0000);scale:(1.0000, 1.0000, 0.2310);group:;locked:False;hidden:False;materials:dark;]
+[name:;collection:Blasters;type:stock_assault;position:(0.0000, 0.0000, -1.1000);rotation:(0.0000, 0.0000, 0.0000);scale:(1.0000, 1.0000, 1.0000);group:;locked:False;hidden:False;materials:dark+metalDark+_defaultMat;]

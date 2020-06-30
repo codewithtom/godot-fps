@@ -1,8 +1,10 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Player/Player.gd" type="Script" id=1]
 [ext_resource path="res://Player/Interaction.gd" type="Script" id=2]
-[ext_resource path="res://Player/Shotgun.gd" type="Script" id=3]
+[ext_resource path="res://Player/Weapon.gd" type="Script" id=3]
+[ext_resource path="res://Player/GunCamera.gd" type="Script" id=4]
+[ext_resource path="res://Player/Weapons/gun.tscn" type="PackedScene" id=5]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.75
@@ -21,6 +23,7 @@ script = ExtResource( 1 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.919402, 0 )
 
 [node name="Camera" type="Camera" parent="Head"]
+cull_mask = 1048573
 
 [node name="RayCast" type="RayCast" parent="Head/Camera"]
 enabled = true
@@ -32,6 +35,16 @@ cast_to = Vector3( 0, 0, -2 )
 collision_mask = 2
 script = ExtResource( 2 )
 
+[node name="Weapons" type="Spatial" parent="Head/Camera"]
+
+[node name="gun" parent="Head/Camera/Weapons" instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.288, -0.276, -0.229 )
+script = ExtResource( 3 )
+default_position = Vector3( 0.288, -0.276, -0.229 )
+ads_position = Vector3( 0, -0.215, -0.134 )
+raycast_path = NodePath("../../RayCast")
+camera_path = NodePath("../..")
+
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0 )
 shape = SubResource( 1 )
@@ -41,7 +54,21 @@ transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0
 mesh = SubResource( 2 )
 material/0 = null
 
-[node name="Weapon" type="Node" parent="."]
-script = ExtResource( 3 )
-fire_rate = 1.0
-clip_size = 2
+[node name="ViewportContainer" type="ViewportContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Viewport" type="Viewport" parent="ViewportContainer"]
+size = Vector2( 1024, 600 )
+transparent_bg = true
+handle_input_locally = false
+render_target_update_mode = 3
+
+[node name="Camera" type="Camera" parent="ViewportContainer/Viewport"]
+cull_mask = 2
+near = 0.01
+script = ExtResource( 4 )
+camera_path = NodePath("../../../Head/Camera")
