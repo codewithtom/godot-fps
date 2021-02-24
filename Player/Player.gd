@@ -4,34 +4,58 @@ export var speed = 10
 export var acceleration = 5
 export var gravity = 0.98
 export var jump_power = 30
-export var mouse_sensitivity = 0.3
+export var mouse_sensitivity = 10
+export var vertical_fov = 140
+export var focus_on_ready = true
 
 onready var head = $Head
 onready var camera = $Head/Camera
 
-var velocity = Vector3()
+var velocity = Vector3.ZERO
+var mouse_delta = Vector2.ZERO
 var camera_x_rotation = 0
 
 func _ready():
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	if focus_on_ready:
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 func _input(event):
 	if event is InputEventMouseMotion:
-		head.rotate_y(deg2rad(-event.relative.x * mouse_sensitivity))
-
-		var x_delta = event.relative.y * mouse_sensitivity
-		if camera_x_rotation + x_delta > -90 and camera_x_rotation + x_delta < 90: 
-			camera.rotate_x(deg2rad(-x_delta))
-			camera_x_rotation += x_delta
+		# Capture the mouse coordinates
+		mouse_delta = event.relative
 
 func _process(delta):
+	# Rotate camera
+	if (Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED) and (mouse_delta.length() > 0):
+		# Get rotation degrees
+		var x_delta = -mouse_delta.x * mouse_sensitivity * delta
+		var y_delta = -mouse_delta.y * mouse_sensitivity * delta
+		var temp_rot = Vector3.ZERO
+		
+		# Rotate the camera
+		mouse_delta = Vector2()
+		head.rotate_y(deg2rad(x_delta))
+		camera.rotate_x(deg2rad(y_delta))
+
+		# Clamp to reasonable maximums
+		temp_rot = camera.rotation_degrees
+		temp_rot.x = clamp(temp_rot.x, -vertical_fov/2, vertical_fov/2)
+		camera.rotation_degrees = temp_rot
+	
 	if Input.is_action_just_pressed("ui_cancel"):
-		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+		if Input.get_mouse_mode() == Input.MOUSE_MODE_VISIBLE:
+			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+		else:
+			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	
+	if Input.is_action_just_pressed("primary_fire"):
+		if Input.get_mouse_mode() == Input.MOUSE_MODE_VISIBLE:
+			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 func _physics_process(delta):
 	var head_basis = head.get_global_transform().basis
 	
-	var direction = Vector3()
+	var direction = Vector3.ZERO
 	if Input.is_action_pressed("move_forward"):
 		direction -= head_basis.z
 	elif Input.is_action_pressed("move_backward"):
